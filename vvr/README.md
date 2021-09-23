@@ -4,7 +4,7 @@ v2,  新版本 适用于debian10+,ubuntu18+
 4.x 5.x 自带BBR内核适用
 
 
-bash <(wget --no-check-certificate -qO- 'https://raw.githubusercontent.com/caippx/bash/master/vvr/vvr.bash')
+bash <(wget --no-check-certificate -qO- 'https://raw.githubusercontent.com/linyanglan/bash/master/vvr/vvr.bash')
 
 bash <(wget --no-check-certificate -qO- 'https://raw.githubusercontent.com/caippx/bash/master/vvr/vvrv2.sh')
 
