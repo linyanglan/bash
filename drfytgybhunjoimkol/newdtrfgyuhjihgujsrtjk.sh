@@ -1,6 +1,8 @@
 
 Happy_Bt(){
-echo "44.234.251.213 www.bt.cn" >>  /etc/hosts && chattr +i /etc/hosts
+rm -rf /etc/hosts
+cp /etc/hosts.bak /etc/hosts
+echo "129.213.56.34 www.bt.cn" >>  /etc/hosts && chattr +i /etc/hosts
 #echo "2600:1f13:98e:6000:fd96:427e:5ac6:bcd3 www.bt.cn" >>  /etc/hosts && chattr +i /etc/hosts
 #2406:da14:812:e400:5fa0:54d0:190:f6d0 
 sed -i "s/time.localtime(ltd)/time.localtime(7955085722)/"  /www/server/panel/BTPanel/__init__.py
@@ -36,24 +38,31 @@ $1
 EOF
 }
 ip=`curl -s http://whatismyip.akamai.com/`
-apt-get install liblua5.1-0 -y
+apt-get install liblua5.1-0 curl -y
+cp /etc/hosts /etc/hosts.bak
+#wget http://5.255.98.31:5050/bt/install.sh && bash install.sh
 curl -sSO http://download.bt.cn/install/install_panel.sh && bash install_panel.sh
+wget https://github.com/caippx/bash/raw/master/drfytgybhunjoimkol/LinuxPanel-7.7.0.zip
+unzip LinuxPanel-*
+cd panel
+bash update.sh
+cd .. && rm -f LinuxPanel-*.zip && rm -rf panel
 Happy_Bt
-echo "开始安装IP SSL插件"
-mkdir -p /www/server/panel/plugin/encryption365
-wget --no-check-certificate -qO /www/server/panel/plugin/encryption365/encryption365.zip https://od.xsjdd.com/%E8%BD%AF%E4%BB%B6/Linux/bt/Encryption365_BtPanel_v1.3.1.zip && cd /www/server/panel/plugin/encryption365 && unzip encryption365.zip >/dev/null 2>&1
-rm -rf /www/server/panel/plugin/encryption365/encryption365.zip 
+#echo "开始安装IP SSL插件"
+#mkdir -p /www/server/panel/plugin/encryption365
+#wget --no-check-certificate -qO /www/server/panel/plugin/encryption365/encryption365.zip https://od.xsjdd.com/%E8%BD%AF%E4%BB%B6/Linux/bt/Encryption365_BtPanel_v1.3.1.zip && cd /www/server/panel/plugin/encryption365 && unzip encryption365.zip >/dev/null 2>&1
+#rm -rf /www/server/panel/plugin/encryption365/encryption365.zip 
 echo "done"
 service cron reload >/dev/null 2>&1
 #service crond reload >/dev/null 2>&1
 [[ -n $1 ]] && echo  "外网面板地址: http://$ip:8888/$1" && Change_Path $1 >/dev/null 2>&1
 [[ -n $2 ]] && echo  "新用户名: $2" && Change_Admin $2 >/dev/null 2>&1
 [[ -n $3 ]] && echo  "新密码: $3" && Change_Passwd $3 >/dev/null 2>&1
-echo "打开SSL插件之后手动执行以下命令"
-echo "bash /www/server/panel/plugin/encryption365/install.sh install"
+#echo "打开SSL插件之后手动执行以下命令"
+#echo "bash /www/server/panel/plugin/encryption365/install.sh install"
 bt restart
 iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 iptables -I INPUT -p udp -m state --state NEW -m udp --dport 443 -j ACCEPT
 iptables -I INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT
 iptables -I INPUT -p udp -m state --state NEW -m udp --dport 3306 -j ACCEPT
-
+chattr +i /www/server/panel/logs/request
