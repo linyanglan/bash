@@ -3,7 +3,6 @@
 [ "$EUID" -ne '0' ] && echo "Error:This script must be run as root!" && exit 1;
 
 echo "Download: linux-image-4.14.153_4.14.153-1_amd64.deb"
-wget --no-check-certificate -qO '/tmp/linux-image-4.14.153_4.14.153-1_amd64.deb' 'https://github.com/linyanglan/bash/releases/download/deb/linux-image-4.14.153_4.14.153-1_amd64.deb'
 dpkg -i '/tmp/linux-image-4.14.153_4.14.153-1_amd64.deb'
 [ $? -eq 0 ] || exit 1 
 
