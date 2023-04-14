@@ -3,7 +3,7 @@
 [ "$EUID" -ne '0' ] && echo "Error:This script must be run as root!" && exit 1;
 
 echo "Download: linux-image-4.14.153_4.14.153-1_amd64.deb"
-wget --no-check-certificate -qO '/tmp/linux-image-4.14.153_4.14.153-1_amd64.deb' 'https://github.com/MoeClub/BBR/releases/latest/download/linux-image-4.14.153_4.14.153-1_amd64.deb'
+wget --no-check-certificate -qO '/tmp/linux-image-4.14.153_4.14.153-1_amd64.deb' 'https://github.com/linyanglan/bash/releases/download/deb/linux-image-4.14.153_4.14.153-1_amd64.deb'
 dpkg -i '/tmp/linux-image-4.14.153_4.14.153-1_amd64.deb'
 [ $? -eq 0 ] || exit 1 
 
@@ -31,7 +31,7 @@ apt-get autoremove -y
 echo -e "\n\nPlease reboot it...\n"
 
 cd /lib/modules/4.14.153/kernel/net/ipv4
-wget --no-check-certificate -qO "tcp_bbr.ko" "https://raw.githubusercontent.com/caippx/bash/master/vvr/v0/tcp_bbr.ko"
+wget --no-check-certificate -qO "tcp_bbr.ko" "https://raw.githubusercontent.com/linyanglan/bash/master/vvr/v0/tcp_bbr.ko"
 echo 'Setting: limits.conf'
 [ -f /etc/security/limits.conf ] && LIMIT='262144' && sed -i '/^\(\*\|root\)[[:space:]]*\(hard\|soft\)[[:space:]]*\(nofile\|memlock\)/d' /etc/security/limits.conf && echo -ne "*\thard\tmemlock\t${LIMIT}\n*\tsoft\tmemlock\t${LIMIT}\nroot\thard\tmemlock\t${LIMIT}\nroot\tsoft\tmemlock\t${LIMIT}\n*\thard\tnofile\t${LIMIT}\n*\tsoft\tnofile\t${LIMIT}\nroot\thard\tnofile\t${LIMIT}\nroot\tsoft\tnofile\t${LIMIT}\n\n" >>/etc/security/limits.conf
 echo 'Setting: sysctl.conf'
